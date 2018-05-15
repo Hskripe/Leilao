@@ -1,0 +1,198 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="LEILAOModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="LANCES">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ID_PRODUTO" Type="int" Nullable="false" />
+          <Property Name="ID_PESSOA" Type="int" Nullable="false" />
+          <Property Name="LANCE" Type="money" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PESSOA">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NOME" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="IDADE" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PRODUTO">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NOME" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="VALOR" Type="money" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_PESSOA">
+          <End Role="PESSOA" Type="Self.PESSOA" Multiplicity="1" />
+          <End Role="LANCES" Type="Self.LANCES" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PESSOA">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="LANCES">
+              <PropertyRef Name="ID_PESSOA" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PRODUTO">
+          <End Role="PRODUTO" Type="Self.PRODUTO" Multiplicity="1" />
+          <End Role="LANCES" Type="Self.LANCES" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PRODUTO">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="LANCES">
+              <PropertyRef Name="ID_PRODUTO" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="LEILAOModelStoreContainer">
+          <EntitySet Name="LANCES" EntityType="Self.LANCES" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PESSOA" EntityType="Self.PESSOA" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PRODUTO" EntityType="Self.PRODUTO" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_PESSOA" Association="Self.FK_PESSOA">
+            <End Role="PESSOA" EntitySet="PESSOA" />
+            <End Role="LANCES" EntitySet="LANCES" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PRODUTO" Association="Self.FK_PRODUTO">
+            <End Role="PRODUTO" EntitySet="PRODUTO" />
+            <End Role="LANCES" EntitySet="LANCES" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="LEILAOModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="LANCES">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ID_PRODUTO" Type="Int32" Nullable="false" />
+          <Property Name="ID_PESSOA" Type="Int32" Nullable="false" />
+          <Property Name="LANCE" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+          <NavigationProperty Name="PESSOA" Relationship="Self.FK_PESSOA" FromRole="LANCES" ToRole="PESSOA" />
+          <NavigationProperty Name="PRODUTO" Relationship="Self.FK_PRODUTO" FromRole="LANCES" ToRole="PRODUTO" />
+        </EntityType>
+        <EntityType Name="PESSOA">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NOME" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="IDADE" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="LANCES" Relationship="Self.FK_PESSOA" FromRole="PESSOA" ToRole="LANCES" />
+        </EntityType>
+        <EntityType Name="PRODUTO">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NOME" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="VALOR" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+          <NavigationProperty Name="LANCES" Relationship="Self.FK_PRODUTO" FromRole="PRODUTO" ToRole="LANCES" />
+        </EntityType>
+        <Association Name="FK_PESSOA">
+          <End Role="PESSOA" Type="Self.PESSOA" Multiplicity="1" />
+          <End Role="LANCES" Type="Self.LANCES" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PESSOA">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="LANCES">
+              <PropertyRef Name="ID_PESSOA" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PRODUTO">
+          <End Role="PRODUTO" Type="Self.PRODUTO" Multiplicity="1" />
+          <End Role="LANCES" Type="Self.LANCES" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PRODUTO">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="LANCES">
+              <PropertyRef Name="ID_PRODUTO" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="LEILAOEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="LANCES" EntityType="Self.LANCES" />
+          <EntitySet Name="PESSOA" EntityType="Self.PESSOA" />
+          <EntitySet Name="PRODUTO" EntityType="Self.PRODUTO" />
+          <AssociationSet Name="FK_PESSOA" Association="Self.FK_PESSOA">
+            <End Role="PESSOA" EntitySet="PESSOA" />
+            <End Role="LANCES" EntitySet="LANCES" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PRODUTO" Association="Self.FK_PRODUTO">
+            <End Role="PRODUTO" EntitySet="PRODUTO" />
+            <End Role="LANCES" EntitySet="LANCES" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="LEILAOModelStoreContainer" CdmEntityContainer="LEILAOEntities">
+          <EntitySetMapping Name="LANCES">
+            <EntityTypeMapping TypeName="LEILAOModel.LANCES">
+              <MappingFragment StoreEntitySet="LANCES">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="ID_PRODUTO" ColumnName="ID_PRODUTO" />
+                <ScalarProperty Name="ID_PESSOA" ColumnName="ID_PESSOA" />
+                <ScalarProperty Name="LANCE" ColumnName="LANCE" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PESSOA">
+            <EntityTypeMapping TypeName="LEILAOModel.PESSOA">
+              <MappingFragment StoreEntitySet="PESSOA">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="NOME" ColumnName="NOME" />
+                <ScalarProperty Name="IDADE" ColumnName="IDADE" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PRODUTO">
+            <EntityTypeMapping TypeName="LEILAOModel.PRODUTO">
+              <MappingFragment StoreEntitySet="PRODUTO">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="NOME" ColumnName="NOME" />
+                <ScalarProperty Name="VALOR" ColumnName="VALOR" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
